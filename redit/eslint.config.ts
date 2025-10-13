@@ -1,5 +1,7 @@
+// @ts-ignore
 import globals from "globals";
 import tseslint from "typescript-eslint";
+// @ts-ignore
 import pluginReact from "eslint-plugin-react";
 import { defineConfig } from "eslint/config";
 
