@@ -1,0 +1,21 @@
+:root {
+    --color-bg: #0E1113;
+    --color-accent: #D93900;
+    --color-accent-hover: #9a1f00;
+    --color-text: #ffffff;
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+Button {
+    background-color: var(--color-accent);
+    color: var(--color-text);
+    border-color: var(--color-accent);
+}
+
+Button:hover {
+    background-color: var(--color-accent-hover);
+}

@@ -1,13 +1,9 @@
-import Menubar from "./layouts/Menubar";
 import './App.css'
+import HomePage from "./Pages/HomePage.tsx";
 
 function App() {
     return (
-        <div className="min-h-screen">
-            <Menubar>
-                
-            </Menubar>
-        </div>
+        <HomePage />
     );
 }
 
