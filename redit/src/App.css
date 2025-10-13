@@ -30,25 +30,21 @@ Button:focus {
     color: #fff;
 }
 
-/* --- Overlay Mask background --- */
 .p-dialog-mask {
     background-color: rgba(0, 0, 0, 0.7);
 }
 
-/* --- Remove the default white background & shadow --- */
 .p-dialog {
     background: transparent;
     border: none;
     box-shadow: none;
 }
 
-/* --- Style the inner modal content --- */
 .p-dialog .p-dialog-content {
     background-color: #1a1a1b;
     padding: 2rem;
 }
 
-/* --- Close (X) Button --- */
 .p-dialog .p-dialog-header-icon {
     background-color: #d93900;
     color: white;

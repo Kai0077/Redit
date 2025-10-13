@@ -2,25 +2,34 @@ import { useState } from "react";
 import { Dialog } from "primereact/dialog";
 import Menubar from "../layouts/Menubar";
 import LoginForm from "../components/LoginForm";
+import SignupForm from "../components/SignupForm";
 
 export default function HomePage() {
-    const [showLogin, setShowLogin] = useState(false);
+    const [showForm, setShowForm] = useState(false);
+    const [formType, setFormType] = useState<"login" | "signup">("login");
 
     return (
         <div className="flex flex-column min-h-screen">
-            <Menubar onSignInClick={() => setShowLogin(true)} />
-
-            <div className="flex flex-1 align-items-center justify-content-center" />
+            <Menubar
+                onSignUpClick={() => {
+                    setFormType("login");
+                    setShowForm(true);
+                }}
+            />
 
             <Dialog
-                visible={showLogin}
-                onHide={() => setShowLogin(false)}
+                visible={showForm}
+                onHide={() => setShowForm(false)}
                 dismissableMask
                 closable
                 modal
-                style={{ width: "26rem" }}
+                style={{ width: formType === "signup" ? "46rem" : "26rem" }}
             >
-                <LoginForm />
+                {formType === "login" ? (
+                    <LoginForm onSwitchForm={() => setFormType("signup")} />
+                ) : (
+                    <SignupForm onSwitchForm={() => setFormType("login")} />
+                )}
             </Dialog>
         </div>
     );

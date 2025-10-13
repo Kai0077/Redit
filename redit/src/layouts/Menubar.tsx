@@ -3,11 +3,7 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import type { MenuItem } from "primereact/menuitem";
 
-interface MenubarProps {
-    onSignInClick?: () => void;
-}
-
-export default function Menubar({ onSignInClick }: MenubarProps) {
+export default function Menubar({ onSignUpClick }: { onSignUpClick?: () => void }) {
     const items: MenuItem[] = [
         { label: "Home", icon: "pi pi-home" },
     ];
@@ -23,28 +19,19 @@ export default function Menubar({ onSignInClick }: MenubarProps) {
 
     const end = (
         <div className="flex align-items-center gap-2">
-            <InputText
-                placeholder="Search"
-                type="text"
-                className="w-8rem sm:w-auto"
-            />
+            <InputText placeholder="Search" type="text" className="w-8rem sm:w-auto" />
             <Button
-                label="Sign In"
+                label="Sign Up"
                 severity="info"
                 rounded
-                onClick={onSignInClick}
+                onClick={onSignUpClick}
             />
         </div>
     );
 
     return (
-        <header className="w-full surface-800 shadow-2">
-            <PMenubar
-                model={items}
-                start={start}
-                end={end}
-                className="w-full justify-content-between px-4 border-none"
-            />
-        </header>
+        <div className="card w-full">
+            <PMenubar model={items} start={start} end={end} />
+        </div>
     );
 }

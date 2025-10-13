@@ -1,8 +1,12 @@
-import {InputText} from "primereact/inputtext";
-import {Button} from "primereact/button";
-import {Divider} from "primereact/divider";
+import { InputText } from "primereact/inputtext";
+import { Button } from "primereact/button";
+import { Divider } from "primereact/divider";
 
-export default function LoginForm() {
+interface LoginFormProps {
+    onSwitchForm: () => void;
+}
+
+export default function LoginForm({ onSwitchForm }: LoginFormProps) {
     return (
         <div className="flex flex-column align-items-center justify-content-center w-full">
             <div className="p-4 w-20rem flex flex-column gap-4 surface-card">
@@ -10,13 +14,13 @@ export default function LoginForm() {
                     Log In
                 </h2>
 
-                {/* Email or username */}
+                {/* Email */}
                 <div className="flex flex-column gap-2">
                     <div className="flex align-items-center gap-1">
-                        <label htmlFor="username" className="text-sm text-gray-300">
+                        <label htmlFor="email" className="text-sm text-gray-300 ml-2">
                             Email
                         </label>
-                        <span style={{color: "#FF4500"}}>*</span>
+                        <span style={{ color: "#FF4500" }}>*</span>
                     </div>
                     <InputText
                         id="email"
@@ -29,10 +33,10 @@ export default function LoginForm() {
                 {/* Password */}
                 <div className="flex flex-column gap-2">
                     <div className="flex align-items-center gap-1">
-                        <label htmlFor="password" className="text-sm text-gray-300">
+                        <label htmlFor="password" className="text-sm text-gray-300 ml-2">
                             Password
                         </label>
-                        <span style={{color: "#FF4500"}}>*</span>
+                        <span style={{ color: "#FF4500" }}>*</span>
                     </div>
                     <InputText
                         id="password"
@@ -53,11 +57,11 @@ export default function LoginForm() {
                     <span className="text-sm text-gray-400">OR</span>
                 </Divider>
 
-                {/* Signup button */}
                 <Button
-                    label="Sign Up"
+                    label="Create a new account"
                     icon="pi pi-user-plus"
                     className="w-full text-white font-bold p-3 border-none border-round-2xl"
+                    onClick={onSwitchForm}
                 />
             </div>
         </div>
