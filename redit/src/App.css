@@ -19,3 +19,72 @@ Button {
 Button:hover {
     background-color: var(--color-accent-hover);
 }
+
+Button:focus {
+    box-shadow: none;
+}
+
+.p-inputtext {
+    background-color: #2A3236;
+    border: none;
+    color: #fff;
+}
+
+/* --- Overlay Mask background --- */
+.p-dialog-mask {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* --- Remove the default white background & shadow --- */
+.p-dialog {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+/* --- Style the inner modal content --- */
+.p-dialog .p-dialog-content {
+    background-color: #1a1a1b;
+    padding: 2rem;
+}
+
+/* --- Close (X) Button --- */
+.p-dialog .p-dialog-header-icon {
+    background-color: #d93900;
+    color: white;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.p-dialog .p-dialog-header-icon:hover {
+    background-color: #b52e00;
+}
+
+.p-dialog .p-dialog-header {
+    background: #1a1a1b;
+    padding-top: 0.25rem;
+    padding-bottom: 0;
+}
+
+.p-dialog .p-dialog-content {
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+}
+
+.p-dialog .p-dialog-header-icon {
+    margin-top: 0.75rem;
+    margin-right: 0.5rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

@@ -1,39 +1,44 @@
-import { InputText } from "primereact/inputtext";
-import { Button } from "primereact/button";
-import { Divider } from "primereact/divider";
+import {InputText} from "primereact/inputtext";
+import {Button} from "primereact/button";
+import {Divider} from "primereact/divider";
 
 export default function LoginForm() {
     return (
         <div className="flex flex-column align-items-center justify-content-center w-full">
-            <div className="surface-card p-5 shadow-2 border-round w-20rem flex flex-column gap-4"
-                 style={{ backgroundColor: "#1A1A1B" }}>
-                <h2 className="text-white text-center text-lg font-semibold">Log In</h2>
+            <div className="p-4 w-20rem flex flex-column gap-4 surface-card">
+                <h2 className="text-white text-center text-lg font-semibold mb-2">
+                    Log In
+                </h2>
 
-                {/* Username */}
-                <div className="flex flex-column gap-1">
-                    <label htmlFor="username" className="text-sm text-gray-300">Username</label>
+                {/* Email or username */}
+                <div className="flex flex-column gap-2">
+                    <div className="flex align-items-center gap-1">
+                        <label htmlFor="username" className="text-sm text-gray-300">
+                            Email
+                        </label>
+                        <span style={{color: "#FF4500"}}>*</span>
+                    </div>
                     <InputText
-                        id="username"
+                        id="email"
                         type="text"
-                        placeholder="Email *"
-                        className="w-full border-none text-white"
-                        style={{
-                            backgroundColor: "#272729",
-                        }}
+                        placeholder="Email"
+                        className="w-full text-gray-200 text-sm p-3 border-round-2xl"
                     />
                 </div>
 
                 {/* Password */}
-                <div className="flex flex-column gap-1">
-                    <label htmlFor="password" className="text-sm text-gray-300">Password</label>
+                <div className="flex flex-column gap-2">
+                    <div className="flex align-items-center gap-1">
+                        <label htmlFor="password" className="text-sm text-gray-300">
+                            Password
+                        </label>
+                        <span style={{color: "#FF4500"}}>*</span>
+                    </div>
                     <InputText
                         id="password"
                         type="password"
-                        placeholder="Password *"
-                        className="w-full border-none text-white"
-                        style={{
-                            backgroundColor: "#272729",
-                        }}
+                        placeholder="Password"
+                        className="w-full text-gray-200 text-sm p-3 border-round-2xl"
                     />
                 </div>
 
@@ -41,7 +46,7 @@ export default function LoginForm() {
                 <Button
                     label="Log In"
                     icon="pi pi-user"
-                    className="w-full border-none text-white font-bold"
+                    className="w-full text-white font-bold p-3 border-none border-round-2xl"
                 />
 
                 <Divider align="center">
@@ -52,7 +57,7 @@ export default function LoginForm() {
                 <Button
                     label="Sign Up"
                     icon="pi pi-user-plus"
-                    className="w-full border-none text-white font-bold"
+                    className="w-full text-white font-bold p-3 border-none border-round-2xl"
                 />
             </div>
         </div>
