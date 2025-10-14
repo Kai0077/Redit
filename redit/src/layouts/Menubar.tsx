@@ -21,7 +21,7 @@ export default function Menubar({ onSignUpClick }: { onSignUpClick?: () => void 
         <div className="flex align-items-center gap-2">
             <InputText placeholder="Search" type="text" className="w-8rem sm:w-auto" />
             <Button
-                label="Sign Up"
+                label="Sign In"
                 severity="info"
                 rounded
                 onClick={onSignUpClick}
@@ -31,7 +31,15 @@ export default function Menubar({ onSignUpClick }: { onSignUpClick?: () => void 
 
     return (
         <div className="card w-full">
-            <PMenubar model={items} start={start} end={end} />
+            <PMenubar 
+                model={items} 
+                start={start} 
+                end={end}
+                style={{
+                    backgroundColor: "#0E1113",
+                    border: "none",
+                }}
+            />
         </div>
     );
 }
