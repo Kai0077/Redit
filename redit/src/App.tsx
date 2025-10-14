@@ -3,6 +3,7 @@ import "./App.css";
 import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import Logout from "./components/Logout.tsx";
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                     </ProtectedRoute>
                 }
             />
+            <Route path="/" element={<Logout />} />
         </Routes>
     );
 }

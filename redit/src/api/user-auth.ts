@@ -3,7 +3,7 @@ import type {
     SignupRequest,
     SignupResponse,
     LoginRequest,
-    LoginResponse
+    LoginResponse, LogoutRequest, LogoutResponse
 } from "../types/user.ts";
 
 const API_BASE_URL = import.meta.env.VITE_LOCAL_API_BASE_URL || import.meta.env.VITE_API_BASE_URL;
@@ -36,6 +36,17 @@ export const login = async (data: LoginRequest): Promise<LoginResponse> => {
 export const getCurrentUser = () => {
     const user = localStorage.getItem("user");
     return user ? JSON.parse(user) : null;
+};
+
+export const logout = async (data?: LogoutRequest): Promise<LogoutResponse | void> => {
+    try {
+        const response = await api.post<LogoutResponse>("/logout", data);
+        return response.data;
+    } finally {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        window.dispatchEvent(new Event("auth:changed"));
+    }
 };
 
 export default api;
