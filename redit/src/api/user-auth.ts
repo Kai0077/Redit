@@ -15,6 +15,14 @@ const api = axios.create({
     },
 });
 
+api.interceptors.request.use((config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
+
 export const signup = async (data: SignupRequest): Promise<SignupResponse> => {
     const response = await api.post<SignupResponse>("/signup", data);
     return response.data;
@@ -23,6 +31,11 @@ export const signup = async (data: SignupRequest): Promise<SignupResponse> => {
 export const login = async (data: LoginRequest): Promise<LoginResponse> => {
     const response = await api.post<LoginResponse>("/login", data);
     return response.data;
+};
+
+export const getCurrentUser = () => {
+    const user = localStorage.getItem("user");
+    return user ? JSON.parse(user) : null;
 };
 
 export default api;
