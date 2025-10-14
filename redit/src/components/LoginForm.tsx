@@ -7,9 +7,10 @@ import {login} from "../api/user-auth.ts";
 
 interface LoginFormProps {
     onSwitchForm: () => void;
+    onLoggedIn?: (user: any) => void;
 }
 
-export default function LoginForm({onSwitchForm}: LoginFormProps) {
+export default function LoginForm({onSwitchForm, onLoggedIn}: LoginFormProps) {
     const [form, setForm] = useState<LoginRequest>({
         email: "",
         password: "",
@@ -26,6 +27,7 @@ export default function LoginForm({onSwitchForm}: LoginFormProps) {
             const response = await login(form);
             localStorage.setItem("token", response.token);
             localStorage.setItem("user", JSON.stringify(response.user));
+            onLoggedIn?.(response.user);
 
         } catch (error: any) {
             setError(error.response?.data?.message || "Login failed. Please try again.");

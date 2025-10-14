@@ -3,6 +3,7 @@
     --color-accent: #D93900;
     --color-accent-hover: #9a1f00;
     --color-text: #ffffff;
+    --color-bg-secondary: #000000;
 }
 
 body {
@@ -83,4 +84,61 @@ Button:focus {
     to {
         opacity: 1;
     }
+}
+
+/* Profile TabBar component */
+.tabbar {
+    width: 100%;
+    max-width: 732px;
+    margin-inline: auto;
+}
+
+.tabbar .p-tabview-nav {
+    justify-content: center;
+    gap: .25rem;
+    padding: .25rem;
+    margin-bottom: 1rem;
+    border: none;
+}
+
+.tabbar .p-tabview-nav-container {
+    display: flex;
+    justify-content: center;
+    background: var(--color-bg-secondary);
+    border: none;
+}
+
+.tabbar .p-tabview-nav .p-tabview-nav-link {
+    background: var(--color-bg-secondary);
+    color: var(--color-text);
+    border: 1px solid transparent;
+    border-radius: 999px;
+    padding: .5rem .9rem;
+}
+
+.tabbar .p-tabview-nav .p-tabview-nav-link:hover {
+    background: #242526;
+    border-color: #2f3437;
+}
+
+.tabbar .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    background: var(--color-accent);
+    color: var(--color-text);
+    border-color: var(--color-accent);
+}
+
+/* Panel content */
+.tabbar .p-tabview-panels {
+    background: var(--color-bg);
+    border: 1px solid #2A3236;
+    border-radius: 12px;
+    padding: 1rem;
+    animation: fadeIn .15s ease;
+}
+
+.tabbar-content {
+    width: 100%;
+    max-width: 732px;
+    margin-inline: auto;
+    padding: .5rem 0;
 }
