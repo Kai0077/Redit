@@ -27,9 +27,7 @@ export default function LoginForm({onSwitchForm}: LoginFormProps) {
             localStorage.setItem("token", response.token);
             localStorage.setItem("user", JSON.stringify(response.user));
 
-            console.log("Login successful:", response.user.username);
         } catch (error: any) {
-            console.error("Login failed:", error.response?.data || error.message);
             setError(error.response?.data?.message || "Login failed. Please try again.");
         } finally {
             setLoading(false);
