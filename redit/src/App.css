@@ -1,0 +1,86 @@
+:root {
+    --color-bg: #0E1113;
+    --color-accent: #D93900;
+    --color-accent-hover: #9a1f00;
+    --color-text: #ffffff;
+}
+
+body {
+    background-color: #000000;
+    color: var(--color-text);
+}
+
+Button {
+    background-color: var(--color-accent);
+    color: var(--color-text);
+    border-color: var(--color-accent);
+}
+
+Button:hover {
+    background-color: var(--color-accent-hover);
+}
+
+Button:focus {
+    box-shadow: none;
+}
+
+.p-inputtext {
+    background-color: #2A3236;
+    border: none;
+    color: #fff;
+}
+
+.p-dialog-mask {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.p-dialog {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.p-dialog .p-dialog-content {
+    background-color: #1a1a1b;
+    padding: 2rem;
+}
+
+.p-dialog .p-dialog-header-icon {
+    background-color: #d93900;
+    color: white;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.p-dialog .p-dialog-header-icon:hover {
+    background-color: #b52e00;
+}
+
+.p-dialog .p-dialog-header {
+    background: #1a1a1b;
+    padding-top: 0.25rem;
+    padding-bottom: 0;
+}
+
+.p-dialog .p-dialog-content {
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+}
+
+.p-dialog .p-dialog-header-icon {
+    margin-top: 0.75rem;
+    margin-right: 0.5rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
