@@ -1,12 +1,45 @@
-import { InputText } from "primereact/inputtext";
-import { Button } from "primereact/button";
-import { Divider } from "primereact/divider";
+import {InputText} from "primereact/inputtext";
+import {Button} from "primereact/button";
+import {Divider} from "primereact/divider";
+import {useState} from "react";
+import type {LoginRequest} from "../types/user.ts";
+import {login} from "../api/user-auth.ts";
 
 interface LoginFormProps {
     onSwitchForm: () => void;
 }
 
-export default function LoginForm({ onSwitchForm }: LoginFormProps) {
+export default function LoginForm({onSwitchForm}: LoginFormProps) {
+    const [form, setForm] = useState<LoginRequest>({
+        email: "",
+        password: "",
+    });
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const handleLogin = async () => {
+        setError(null);
+        setLoading(true);
+
+        try {
+            const response = await login(form);
+            localStorage.setItem("token", response.token);
+            localStorage.setItem("user", JSON.stringify(response.user));
+
+            console.log("Login successful:", response.user.username);
+        } catch (error: any) {
+            console.error("Login failed:", error.response?.data || error.message);
+            setError(error.response?.data?.message || "Login failed. Please try again.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const inputErrorClass = error
+        ? "border-1 border-red-500 focus:border-red-500"
+        : "border-transparent focus:border-blue-400";
+
     return (
         <div className="flex flex-column align-items-center justify-content-center w-full">
             <div className="p-4 w-20rem flex flex-column gap-4 surface-card">
@@ -20,13 +53,18 @@ export default function LoginForm({ onSwitchForm }: LoginFormProps) {
                         <label htmlFor="email" className="text-sm text-gray-300 ml-2">
                             Email
                         </label>
-                        <span style={{ color: "#FF4500" }}>*</span>
+                        <span style={{color: "#FF4500"}}>*</span>
                     </div>
                     <InputText
                         id="email"
                         type="text"
                         placeholder="Email"
-                        className="w-full text-gray-200 text-sm p-3 border-round-2xl"
+                        value={form.email}
+                        onChange={(event) => setForm({...form, email: event.target.value})}
+                        className={`w-full text-gray-200 text-sm p-3 border-round-2xl ${inputErrorClass}`}
+                        style={{
+                            backgroundColor: "#2A3236",
+                        }}
                     />
                 </div>
 
@@ -36,21 +74,29 @@ export default function LoginForm({ onSwitchForm }: LoginFormProps) {
                         <label htmlFor="password" className="text-sm text-gray-300 ml-2">
                             Password
                         </label>
-                        <span style={{ color: "#FF4500" }}>*</span>
+                        <span style={{color: "#FF4500"}}>*</span>
                     </div>
                     <InputText
                         id="password"
                         type="password"
                         placeholder="Password"
-                        className="w-full text-gray-200 text-sm p-3 border-round-2xl"
+                        value={form.password}
+                        onChange={(event) => setForm({...form, password: event.target.value})}
+                        className={`w-full text-gray-200 text-sm p-3 border-round-2xl ${inputErrorClass}`}
+                        style={{
+                            backgroundColor: "#2A3236",
+                        }}
                     />
                 </div>
 
                 {/* Login button */}
                 <Button
-                    label="Log In"
+                    label={loading ? "Logging in..." : "Log In"}
                     icon="pi pi-user"
+                    loading={loading}
                     className="w-full text-white font-bold p-3 border-none border-round-2xl"
+                    onClick={handleLogin}
+                    disabled={loading}
                 />
 
                 <Divider align="center">
