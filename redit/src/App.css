@@ -1,51 +1,49 @@
 :root {
     --color-bg: #0E1113;
+    --color-bg-secondary: #000000;
     --color-accent: #D93900;
     --color-accent-hover: #9a1f00;
     --color-text: #ffffff;
-    --color-bg-secondary: #000000;
 }
 
+/* Base */
 body {
     background-color: #000000;
     color: var(--color-text);
 }
 
+/* PrimeReact Button (component tag selectors are unreliable; class is safer) */
 Button {
     background-color: var(--color-accent);
     color: var(--color-text);
     border-color: var(--color-accent);
 }
+Button:hover { background-color: var(--color-accent-hover); }
+Button:focus { box-shadow: none; }
 
-Button:hover {
-    background-color: var(--color-accent-hover);
-}
-
-Button:focus {
-    box-shadow: none;
-}
-
+/* Inputs (default) */
 .p-inputtext {
     background-color: #2A3236;
     border: none;
     color: #fff;
 }
 
-.p-dialog-mask {
-    background-color: rgba(0, 0, 0, 0.7);
-}
-
+/* Dialog */
+.p-dialog-mask { background-color: rgba(0, 0, 0, 0.7); }
 .p-dialog {
     background: transparent;
     border: none;
     box-shadow: none;
 }
-
+.p-dialog .p-dialog-header {
+    background: #1a1a1b;
+    padding-top: 0.25rem;
+    padding-bottom: 0;
+}
 .p-dialog .p-dialog-content {
     background-color: #1a1a1b;
-    padding: 2rem;
+    padding: 0.5rem 2rem 1rem;
 }
-
 .p-dialog .p-dialog-header-icon {
     background-color: #d93900;
     color: white;
@@ -55,42 +53,26 @@ Button:focus {
     align-items: center;
     justify-content: center;
     transition: background-color 0.2s ease;
-}
-
-.p-dialog .p-dialog-header-icon:hover {
-    background-color: #b52e00;
-}
-
-.p-dialog .p-dialog-header {
-    background: #1a1a1b;
-    padding-top: 0.25rem;
-    padding-bottom: 0;
-}
-
-.p-dialog .p-dialog-content {
-    padding-top: 0.5rem;
-    padding-bottom: 1rem;
-}
-
-.p-dialog .p-dialog-header-icon {
     margin-top: 0.75rem;
     margin-right: 0.5rem;
 }
+.p-dialog .p-dialog-header-icon:hover { background-color: #b52e00; }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
+/* Animations */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* Profile TabBar component */
+/* ---------------- TabBar ---------------- */
 .tabbar {
     width: 100%;
     max-width: 732px;
     margin-inline: auto;
+}
+
+.tabbar .p-tabview-nav-container {
+    display: flex;
+    justify-content: center;
+    background: var(--color-bg-secondary);
+    border: none;
 }
 
 .tabbar .p-tabview-nav {
@@ -98,13 +80,6 @@ Button:focus {
     gap: .25rem;
     padding: .25rem;
     margin-bottom: 1rem;
-    border: none;
-}
-
-.tabbar .p-tabview-nav-container {
-    display: flex;
-    justify-content: center;
-    background: var(--color-bg-secondary);
     border: none;
 }
 
@@ -127,18 +102,157 @@ Button:focus {
     border-color: var(--color-accent);
 }
 
-/* Panel content */
+/* Panels: make Prime container transparent; we’ll style our own content box */
 .tabbar .p-tabview-panels {
-    background: var(--color-bg);
-    border: 1px solid #2A3236;
-    border-radius: 12px;
+    background: transparent;
+    border: none;
+    padding: 0; /* prevents gap above content box */
+}
+
+/* Toolbar between headers and content */
+.tabbar-toolbar {
+    width: 100%;
+    max-width: 732px;
+    margin: 0 auto .75rem;
+    display: flex;
+    justify-content: flex-start; /* left corner */
+}
+
+/* Content box (shared look) */
+.tabbar-content,
+.postcard {
+    width: 100%;
+    max-width: 732px;
+    margin: 0 auto;
     padding: 1rem;
+    background: #1a1a1b;
+    border: 1px solid gray;
+    border-radius: 12px;
     animation: fadeIn .15s ease;
 }
 
-.tabbar-content {
+/* Create Post button: compact, white border, pill */
+.tabbar-create-post.p-button {
+    font-size: 0.875rem;
+    padding: 0.4rem 0.75rem;
+    background: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+}
+.tabbar-create-post.p-button.p-button-rounded { border-radius: 999px; }
+
+/* ---------------- Post Page ---------------- */
+/* ---------------- Post Page ---------------- */
+/* Align editor width with title */
+
+.post-editor.p-editor {
     width: 100%;
     max-width: 732px;
-    margin-inline: auto;
-    padding: .5rem 0;
+    margin: 0 auto;
+}
+
+/* No border on the container; we'll build borders on toolbar+content */
+.post-editor .p-editor-container {
+    background: transparent;
+    border: none;
+    border-radius: 12px;   /* still clip inner corners if needed */
+    overflow: hidden;      /* prevents any inner square edges from peeking */
+}
+
+/* TOOLBAR: border on all sides, rounded top corners */
+.post-editor .ql-toolbar.ql-snow {
+    background: transparent;
+    color: rgba(255,255,255,.6);
+    border: 1px solid gray !important;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    padding: 4px 8px;
+}
+
+/* CONTENT: border on left/right/bottom, NO top border; rounded bottom corners */
+.post-editor .ql-container.ql-snow {
+    background: transparent;
+    border-left: 1px solid gray !important;
+    border-right: 1px solid gray !important;
+    border-bottom: 1px solid gray !important;
+    border-top: none !important;              /* single 1px seam (from toolbar’s bottom) */
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+/* Editable area */
+.post-editor .p-editor-content {
+    background: transparent;
+    border: none !important;
+}
+.post-editor .p-editor-content .ql-editor {
+    background: transparent;
+    color: var(--color-text);
+    padding: 0.75rem 1rem;
+    min-height: 240px;
+}
+
+/* Optional: tint icons/labels to match title placeholder */
+.post-editor .ql-toolbar .ql-stroke { stroke: rgba(255,255,255,.6) !important; }
+.post-editor .ql-toolbar .ql-fill   { fill:   rgba(255,255,255,.6) !important; }
+.post-editor .ql-toolbar .ql-picker,
+.post-editor .ql-toolbar .ql-picker-label,
+.post-editor .ql-toolbar .ql-picker-item,
+.post-editor .ql-toolbar button {
+    color: rgba(255,255,255,.6) !important;
+}
+.post-editor .ql-toolbar button:hover .ql-stroke,
+.post-editor .ql-toolbar .ql-picker-label:hover { stroke: #fff !important; color: #fff !important; }
+.post-editor .ql-toolbar button:hover .ql-fill { fill: #fff !important; }
+
+/* Wrapper that caps both title + editor */
+.postcard-wrap {
+    width: 100%;
+    max-width: 732px;
+    margin: 0 auto;
+    padding: 0;                 /* ensure no side padding widens things */
+}
+
+/* Make the Editor itself obey the cap */
+.post-editor.p-editor {
+    display: block;             /* ensure it behaves like a block */
+    width: 100%;
+    max-width: 732px;           /* same as title */
+    margin: 0 auto;
+}
+/* put this AFTER the generic .p-inputtext rule */
+.postcard-wrap .postcard-title .p-inputtext {
+    background: transparent !important;
+    color: var(--color-text);
+    border: 1px solid gray;
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    background-clip: padding-box;
+}
+
+.postcard-title {
+    position: relative;
+    margin: 0 0 1.5rem 0;     /* extra space for the hint below */
+}
+
+.postcard-title-hint {
+    position: absolute;
+    right: 0.25rem;           /* nudge from the edge */
+    bottom: -1.1rem;          /* sits just below the input */
+    font-size: 0.75rem;
+    opacity: 0.7;
+    color: var(--color-text);
+    line-height: 1;
+}
+
+.postcard-wrap .postcard-title .p-inputtext,
+.postcard-wrap .postcard-title .p-inputtext:focus,
+.postcard-wrap .postcard-title .p-inputtext:enabled:focus,
+.postcard-wrap .postcard-title .p-inputtext:focus-visible,
+.postcard-wrap .postcard-title .p-inputtext.p-inputtext:focus {
+    border: 1px solid gray !important;   /* no highlight color */
+    outline: none !important;             /* remove browser outline */
+    box-shadow: none !important;          /* remove PrimeReact shadow */
 }

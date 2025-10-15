@@ -4,11 +4,13 @@ import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Logout from "./components/Logout.tsx";
+import PostPage from "./pages/PostPage.tsx";
 
 function App() {
     return (
         <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/post" element={<PostPage />} />
             <Route
                 path="/profile"
                 element={
