@@ -142,3 +142,241 @@ Button:focus {
     margin-inline: auto;
     padding: .5rem 0;
 }
+
+/* === AdminPostCard === */
+.post-card {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto 1rem;
+    background-color: #1a1a1b;
+    border: 1px solid #343536;
+    border-radius: 6px;
+    padding: 1rem;
+    transition: border-color 0.2s ease;
+    cursor: pointer;
+}
+
+.post-card:hover {
+    border-color: #818384;
+}
+
+/* HEADER */
+.post-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.post-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.community-icon {
+    width: 24px;
+    height: 24px;
+    background-color: #343536;
+    border-radius: 50%;
+}
+
+.community-info {
+    min-width: 0;
+}
+
+.community-line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    font-size: 12px;
+}
+
+.community-name {
+    font-weight: 600;
+    color: #d7dadc;
+}
+
+.community-meta {
+    color: #818384;
+}
+
+/* Options button (three dots) */
+.options-btn {
+    color: #d7dadc !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    width: 2rem;
+    height: 2rem;
+}
+
+.options-btn:hover {
+    background-color: #272729 !important;
+}
+
+/* Menu customization */
+.p-menu {
+    background: #1a1a1b !important;
+    border: 1px solid #343536 !important;
+    color: #d7dadc !important;
+}
+
+.p-menu .p-menuitem-link {
+    color: #d7dadc !important;
+    border-radius: 4px;
+    padding: 0.5rem 1rem !important;
+}
+
+.p-menu .p-menuitem-link:hover {
+    background-color: #272729 !important;
+    color: #ffffff !important;
+}
+
+.p-menu .pi {
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+}
+
+/* BODY */
+.post-body {
+    margin-top: 0.75rem;
+}
+
+.post-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #d7dadc;
+    line-height: 1.3;
+    transition: color 0.2s ease;
+}
+
+.post-title:hover {
+    color: #818384;
+}
+
+.post-description {
+    margin-top: 0.5rem;
+    color: #d7dadc;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.post-embeds {
+    margin-top: 0.75rem;
+    list-style: none;
+    padding-left: 0;
+}
+
+.post-embed-link {
+    color: #7aa2ff;
+    font-size: 0.85rem;
+    text-decoration: none;
+    word-break: break-all;
+}
+
+.post-embed-link:hover {
+    text-decoration: underline;
+}
+
+/* FOOTER */
+.post-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.post-actions-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* VOTE PILL */
+.vote-pill {
+    display: flex;
+    align-items: center;
+    background-color: #0d0e0f;
+    border-radius: 9999px;
+    padding: 6px 10px;
+    color: #d7dadc;
+}
+
+.vote-icon {
+    cursor: pointer;
+    font-size: 14px;
+    transition: color 0.2s ease;
+}
+
+.vote-icon:hover {
+    color: #ff4500;
+}
+
+.vote-icon.downvoted:hover {
+    color: #7193ff;
+}
+
+.vote-count {
+    margin: 0 6px;
+    font-weight: 700;
+    font-size: 12px;
+    user-select: none;
+}
+
+.upvoted {
+    color: #ff4500 !important;
+}
+
+.downvoted {
+    color: #7193ff !important;
+}
+
+/* COMMENTS BUTTON */
+.comment-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #0d0e0f;
+    border-radius: 9999px;
+    padding: 6px 10px;
+    color: #d7dadc;
+    font-size: 12px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.comment-btn:hover {
+    background-color: #272729;
+}
+
+.comment-icon {
+    font-size: 14px;
+}
+
+/* RIGHT ICONS */
+.post-actions-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.icon-btn {
+    background-color: #0d0e0f;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    border: none;
+    color: #d7dadc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.icon-btn:hover {
+    background-color: #272729;
+}
+
