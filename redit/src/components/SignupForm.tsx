@@ -34,7 +34,7 @@ export default function SignupForm({ onSwitchForm, onSignedUp }: SignupFormProps
     const isAgeValid = Number.isInteger(form.age) && form.age >= 13;
     const isPasswordValid = (form.password?.length ?? 0) >= 8;
     const emailsLooksValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email);
-    const hasUsername = form.username.trim().length > 0;
+    const hasUsername = form.username.trim().length > 3;
     const passwordsMatchStrict =
         form.confirmPassword.length > 0 && form.password === form.confirmPassword;
 
