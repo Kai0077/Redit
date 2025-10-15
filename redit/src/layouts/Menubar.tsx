@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useRef,useEffect, useMemo, useState, useCallback } from "react";
 import { Menubar as PMenubar } from "primereact/menubar";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
@@ -8,10 +8,18 @@ import { useNavigate } from "react-router-dom";
 import { getCurrentUser, logout as apiLogout } from "../api/user-auth";
 import type { SignupResponse } from "../types/user";
 import LoginForm from "../components/LoginForm";
-import SignupForm from "../components/SignupForm"; // <-- add this
+import SignupForm from "../components/SignupForm";
+import AppToast, { type AppToastHandle } from "../components/AppToast";
+
+export type AppUser = {
+    username: string;
+    email: string;
+    name: string;
+}
 
 export default function Menubar() {
     const navigate = useNavigate();
+    const toastRef = useRef<AppToastHandle>(null);
 
     // auth state
     const [rawUser, setRawUser] = useState<SignupResponse | null>(() => getCurrentUser());
@@ -59,7 +67,7 @@ export default function Menubar() {
                 window.dispatchEvent(new Event("auth:changed"));
             }
         } catch {
-            // ignore
+            toastRef.current?.showError("Logout failed. Please try again.");
         } finally {
             navigate("/", { replace: true });
         }
@@ -89,7 +97,8 @@ export default function Menubar() {
     );
 
     return (
-        <>
+        <div>
+            <AppToast ref={toastRef} />
             <div className="card w-full">
                 <PMenubar model={items} start={start} end={end} style={{ backgroundColor: "#0E1113", border: "none" }} />
             </div>
@@ -116,6 +125,6 @@ export default function Menubar() {
                     }}/>
                 )}
             </Dialog>
-        </>
+        </div>
     );
 }

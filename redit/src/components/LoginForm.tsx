@@ -1,22 +1,21 @@
 import {InputText} from "primereact/inputtext";
 import {Button} from "primereact/button";
 import {Divider} from "primereact/divider";
-import {useState} from "react";
-import type {LoginRequest} from "../types/user.ts";
+import {useRef, useState} from "react";
+import type { LoginRequest, SignupResponse } from "../types/user.ts";
 import {login} from "../api/user-auth.ts";
+import AppToast, { type AppToastHandle } from "./AppToast";
 
 interface LoginFormProps {
     onSwitchForm: () => void;
-    onLoggedIn?: (user: any) => void;
+    onLoggedIn?: (user: SignupResponse) => void;
 }
 
 export default function LoginForm({onSwitchForm, onLoggedIn}: LoginFormProps) {
-    const [form, setForm] = useState<LoginRequest>({
-        email: "",
-        password: "",
-    });
-
+    const [form, setForm] = useState<LoginRequest>({ email: "", password: "" });
+    const toastRef = useRef<AppToastHandle>(null);
     const [loading, setLoading] = useState(false);
+    
     const [error, setError] = useState<string | null>(null);
 
     const handleLogin = async () => {
@@ -28,9 +27,10 @@ export default function LoginForm({onSwitchForm, onLoggedIn}: LoginFormProps) {
             localStorage.setItem("token", response.token);
             localStorage.setItem("user", JSON.stringify(response.user));
             onLoggedIn?.(response.user);
-
+            
         } catch (error: any) {
-            setError(error.response?.data?.message || "Login failed. Please try again.");
+            const message = error?.response?.data?.message || "Login failed. Please check your credentials and try again.";
+            toastRef.current?.showError(message);
         } finally {
             setLoading(false);
         }
@@ -42,6 +42,7 @@ export default function LoginForm({onSwitchForm, onLoggedIn}: LoginFormProps) {
 
     return (
         <div className="flex flex-column align-items-center justify-content-center w-full">
+            <AppToast ref={toastRef} />
             <div className="p-4 w-20rem flex flex-column gap-4 surface-card">
                 <h2 className="text-white text-center text-lg font-semibold mb-2">
                     Log In
@@ -61,6 +62,7 @@ export default function LoginForm({onSwitchForm, onLoggedIn}: LoginFormProps) {
                         placeholder="Email"
                         value={form.email}
                         onChange={(event) => setForm({...form, email: event.target.value})}
+                        onKeyDown={(event) => event.key === "Enter" && handleLogin()}
                         className={`w-full text-gray-200 text-sm p-3 border-round-2xl ${inputErrorClass}`}
                         style={{
                             backgroundColor: "#2A3236",
@@ -82,6 +84,7 @@ export default function LoginForm({onSwitchForm, onLoggedIn}: LoginFormProps) {
                         placeholder="Password"
                         value={form.password}
                         onChange={(event) => setForm({...form, password: event.target.value})}
+                        onKeyDown={(event) => event.key === "Enter" && handleLogin()}
                         className={`w-full text-gray-200 text-sm p-3 border-round-2xl ${inputErrorClass}`}
                         style={{
                             backgroundColor: "#2A3236",
@@ -104,6 +107,7 @@ export default function LoginForm({onSwitchForm, onLoggedIn}: LoginFormProps) {
                 </Divider>
 
                 <Button
+                    type="submit"
                     label="Create a new account"
                     icon="pi pi-user-plus"
                     className="w-full text-white font-bold p-3 border-none border-round-2xl"

@@ -82,8 +82,6 @@ export default function SignupForm({ onSwitchForm, onSignedUp }: SignupFormProps
             const status = error?.response?.status;
             const message: string =
                 error?.response?.data?.message || "Something went wrong!";
-            console.log("--------------------------------------------------------------------------------------");
-            console.log(status, message);
 
             if (status === 400) {
                 if (/username/i.test(message)) {
@@ -234,6 +232,7 @@ export default function SignupForm({ onSwitchForm, onSignedUp }: SignupFormProps
                                 onChange={(event) =>
                                     setForm({ ...form, confirmPassword: event.target.value })
                                 }
+                                onKeyDown={(event) => event.key === "Enter" && handleSignup()}
                             />
                         </div>
                     </div>
