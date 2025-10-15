@@ -35,3 +35,11 @@ export interface LoginResponse {
     token: string;
     user: SignupResponse;
 }
+
+export interface LogoutRequest {
+    username: string;
+}
+
+export interface LogoutResponse {
+    message: string;
+}
