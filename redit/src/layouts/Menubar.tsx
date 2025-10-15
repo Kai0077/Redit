@@ -109,7 +109,11 @@ export default function Menubar() {
                         onLoggedIn={handleLoggedIn}
                     />
                 ) : (
-                    <SignupForm onSwitchForm={() => setAuthMode("login")} />
+                    <SignupForm onSwitchForm={() => setAuthMode("login")}
+                    onSignedUp={() => {
+                        setAuthMode("login")
+                        setAuthOpen(true)
+                    }}/>
                 )}
             </Dialog>
         </>
