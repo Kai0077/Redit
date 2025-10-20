@@ -4,6 +4,7 @@
     --color-accent: #D93900;
     --color-accent-hover: #9a1f00;
     --color-text: #ffffff;
+    --menu-height-bar: 64px;
 }
 
 /* Base */
@@ -142,13 +143,23 @@ Button:focus { box-shadow: none; }
 .tabbar-create-post.p-button.p-button-rounded { border-radius: 999px; }
 
 /* ---------------- Post Page ---------------- */
-/* ---------------- Post Page ---------------- */
-/* Align editor width with title */
-
 .post-editor.p-editor {
     width: 100%;
     max-width: 732px;
     margin: 0 auto;
+}
+
+/* Fill the viewport below Menubar and center the block */
+.postcard-center {
+    padding-block: 10rem;
+}
+
+/* your existing size cap stays the same */
+.postcard-wrap {
+    width: 100%;
+    max-width: 732px;
+    margin: 0 auto;
+    padding: 0;
 }
 
 /* No border on the container; we'll build borders on toolbar+content */
@@ -212,9 +223,8 @@ Button:focus { box-shadow: none; }
     width: 100%;
     max-width: 732px;
     margin: 0 auto;
-    padding: 0;                 /* ensure no side padding widens things */
+    padding: 0;
 }
-
 /* Make the Editor itself obey the cap */
 .post-editor.p-editor {
     display: block;             /* ensure it behaves like a block */
@@ -255,4 +265,10 @@ Button:focus { box-shadow: none; }
     border: 1px solid gray !important;   /* no highlight color */
     outline: none !important;             /* remove browser outline */
     box-shadow: none !important;          /* remove PrimeReact shadow */
+}
+
+.post-editor .ql-editor.ql-blank::before {
+    color: rgba(255,255,255,.6);
+    opacity: 1;                 /* some themes set this low */
+    font-style: normal;         /* remove italic if you don't want it */
 }
