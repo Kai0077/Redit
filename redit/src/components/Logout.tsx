@@ -1,4 +1,3 @@
-// src/pages/Logout.tsx
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout as apiLogout } from "../api/user-auth";

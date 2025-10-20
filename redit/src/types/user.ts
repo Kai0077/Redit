@@ -6,6 +6,11 @@ export enum AccountStatus {
     Invisible = "Invisible"
 }
 
+export enum AccountRole {
+    SuperUser = "SuperUser",
+    User = "User"
+}
+
 export interface SignupRequest {
     username: string;
     name: string;
@@ -23,7 +28,7 @@ export interface SignupResponse {
     bio: string;
     profilePicture: string;
     accountStatus: AccountStatus;
-    
+    role: AccountRole;
 }
 
 export interface LoginRequest {

@@ -1,0 +1,65 @@
+/* === Admin Dashboard === */
+.admin-page {
+    padding: 1rem;
+    color: #d7dadc;
+    background-color: #000; /* Dark background */
+    min-height: 100vh;
+}
+
+.admin-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+}
+
+/* === PrimeReact TabView Customization === */
+.custom-tabview {
+    background: transparent;
+    border: none;
+    color: #d7dadc;
+}
+
+.custom-tabview .p-tabview-nav {
+    border-bottom: 1px solid #343536;
+    background: #0d0d0e;
+    padding-left: 0.5rem;
+}
+
+.custom-tabview .p-tabview-nav li {
+    margin-right: 1rem;
+}
+
+.custom-tabview .p-tabview-nav-link {
+    background: transparent;
+    border: none;
+    color: #d7dadc;
+    font-weight: 500;
+    padding: 0.75rem 0.75rem;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.custom-tabview .p-tabview-nav-link:hover {
+    color: #ffffff;
+}
+
+.custom-tabview .p-highlight .p-tabview-nav-link {
+    color: #ff4500;
+    border-bottom: 2px solid #ff4500;
+    border-radius: 0;
+}
+
+/* === Tab Panels === */
+.p-tabview-panels {
+    background: transparent;
+    padding-top: 1.5rem;
+}
+
+.tab-placeholder {
+    background-color: #1a1a1b;
+    border: 1px solid #343536;
+    border-radius: 6px;
+    padding: 2rem;
+    text-align: center;
+    color: #818384;
+}

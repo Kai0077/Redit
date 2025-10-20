@@ -1,20 +1,21 @@
-import { useRef,useEffect, useMemo, useState, useCallback } from "react";
-import { Menubar as PMenubar } from "primereact/menubar";
-import { InputText } from "primereact/inputtext";
-import { Button } from "primereact/button";
-import { Dialog } from "primereact/dialog";
-import type { MenuItem } from "primereact/menuitem";
-import { useNavigate } from "react-router-dom";
-import { getCurrentUser, logout as apiLogout } from "../api/user-auth";
-import type { SignupResponse } from "../types/user";
+import {useRef, useEffect, useMemo, useState, useCallback} from "react";
+import {Menubar as PMenubar} from "primereact/menubar";
+import {InputText} from "primereact/inputtext";
+import {Button} from "primereact/button";
+import {Dialog} from "primereact/dialog";
+import type {MenuItem} from "primereact/menuitem";
+import {useNavigate} from "react-router-dom";
+import {getCurrentUser, logout as apiLogout} from "../api/user-auth";
+import type {SignupResponse} from "../types/user";
 import LoginForm from "../components/LoginForm";
 import SignupForm from "../components/SignupForm";
-import AppToast, { type AppToastHandle } from "../components/AppToast";
+import AppToast, {type AppToastHandle} from "../components/AppToast";
 
 export type AppUser = {
     username: string;
     email: string;
     name: string;
+    role?: string;
 }
 
 export default function Menubar() {
@@ -35,10 +36,28 @@ export default function Menubar() {
 
     const currentUser = useMemo(() => {
         if (!rawUser) return null;
-        return { username: rawUser.username, email: rawUser.email, name: rawUser.name };
+        return {
+            username: rawUser.username,
+            email: rawUser.email,
+            name: rawUser.name,
+            role: rawUser.role,
+        };
     }, [rawUser]);
 
-    const items: MenuItem[] = [{ label: "Home", icon: "pi pi-home", command: () => navigate("/") }];
+    const isSuperUser = currentUser?.role === "SuperUser";
+
+    const items: MenuItem[] = [
+        {label: "Home", icon: "pi pi-home", command: () => navigate("/")},
+        ...(isSuperUser
+            ? [
+                {
+                    label: "Admin",
+                    icon: "pi pi-shield",
+                    command: () => navigate("/admin"),
+                },
+            ]
+            : []),
+    ];
 
     // ---- Auth modal (no URL change) ----
     const [authOpen, setAuthOpen] = useState(false);
@@ -51,16 +70,23 @@ export default function Menubar() {
 
     const handleLoggedIn = useCallback(() => {
         setAuthOpen(false);
+        const user = getCurrentUser();
         setRawUser(getCurrentUser());
         window.dispatchEvent(new Event("auth:changed"));
-    }, []);
+
+        if (user?.role === "super_admin") {
+            navigate("/admin");
+        } else {
+            navigate("/");
+        }
+    }, [navigate]);
 
     // ---- Logout ----
     const handleLogout = useCallback(async () => {
         try {
             const username = currentUser?.username ?? getCurrentUser()?.username;
             if (username) {
-                await apiLogout({ username });
+                await apiLogout({username});
             } else {
                 localStorage.removeItem("token");
                 localStorage.removeItem("user");
@@ -69,7 +95,7 @@ export default function Menubar() {
         } catch {
             toastRef.current?.showError("Logout failed. Please try again.");
         } finally {
-            navigate("/", { replace: true });
+            navigate("/", {replace: true});
         }
     }, [currentUser?.username, navigate]);
 
@@ -79,28 +105,28 @@ export default function Menubar() {
             src="https://primefaces.org/cdn/primereact/images/logo.png"
             height={36}
             className="mr-2"
-            style={{ cursor: "pointer" }}
+            style={{cursor: "pointer"}}
             onClick={() => navigate("/")}
         />
     );
 
     const end = currentUser ? (
         <div className="flex align-items-center gap-2">
-            <Button label="Profile" icon="pi pi-user" rounded severity="info" onClick={() => navigate("/profile")} />
-            <Button label="Logout" icon="pi pi-sign-out" rounded severity="secondary" onClick={handleLogout} />
+            <Button label="Profile" icon="pi pi-user" rounded severity="info" onClick={() => navigate("/profile")}/>
+            <Button label="Logout" icon="pi pi-sign-out" rounded severity="secondary" onClick={handleLogout}/>
         </div>
     ) : (
         <div className="flex align-items-center gap-2">
-            <InputText placeholder="Search" type="text" className="w-8rem sm:w-auto" />
-            <Button label="Sign In" severity="info" rounded onClick={handleSignInClick} />
+            <InputText placeholder="Search" type="text" className="w-8rem sm:w-auto"/>
+            <Button label="Sign In" severity="info" rounded onClick={handleSignInClick}/>
         </div>
     );
 
     return (
         <div>
-            <AppToast ref={toastRef} />
+            <AppToast ref={toastRef}/>
             <div className="card w-full">
-                <PMenubar model={items} start={start} end={end} style={{ backgroundColor: "#0E1113", border: "none" }} />
+                <PMenubar model={items} start={start} end={end} style={{backgroundColor: "#0E1113", border: "none"}}/>
             </div>
 
             {/* Auth modal */}
@@ -109,7 +135,7 @@ export default function Menubar() {
                 onHide={() => setAuthOpen(false)}
                 dismissableMask
                 draggable={false}
-                style={{ width: authMode === "login" ? "28rem" : "40rem" }}
+                style={{width: authMode === "login" ? "28rem" : "40rem"}}
                 className="auth-dialog"
             >
                 {authMode === "login" ? (
@@ -119,10 +145,10 @@ export default function Menubar() {
                     />
                 ) : (
                     <SignupForm onSwitchForm={() => setAuthMode("login")}
-                    onSignedUp={() => {
-                        setAuthMode("login")
-                        setAuthOpen(true)
-                    }}/>
+                                onSignedUp={() => {
+                                    setAuthMode("login")
+                                    setAuthOpen(true)
+                                }}/>
                 )}
             </Dialog>
         </div>
