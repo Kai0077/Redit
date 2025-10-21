@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { GetAllPostsResponse } from "../types/post.ts";
-import {getSuperUser} from "./user-auth.ts";
+import {getCurrentUser, getSuperUser} from "./user-auth.ts";
 
 const API_BASE_URL = import.meta.env.VITE_LOCAL_API_BASE_URL || import.meta.env.VITE_API_BASE_URL;
 
@@ -27,6 +27,15 @@ export const getAllPosts = async (): Promise<GetAllPostsResponse> => {
     
     const response = await api.get<GetAllPostsResponse>("/");
     return response.data;
+}
+
+export const deletePost = async (id: number): Promise<void> => {
+    const user = getCurrentUser();
+    if (!user) {
+       throw new Error("Unauthorized: You are not allowed to perform this action.");
+    }
+    
+    await api.delete(`/${id}`);
 }
 
 export default api;

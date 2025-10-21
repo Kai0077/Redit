@@ -1,7 +1,7 @@
 import type { Post } from "../../types/post";
 import { Menu } from "primereact/menu";
 import { Button } from "primereact/button";
-import { useRef } from "react";
+import {useRef} from "react";
 
 interface AdminPostCardProps {
     post: Post;
@@ -19,18 +19,12 @@ export default function AdminPostCard({
                                           isUpvoted,
                                           isDownvoted,
                                           onOpen,
-                                          onEdit,
                                           onDelete,
                                       }: AdminPostCardProps) {
     const aura = post.aura ?? 0;
     const menuRef = useRef<Menu>(null);
 
     const menuItems = [
-        {
-            label: "Edit",
-            icon: "pi pi-pencil",
-            command: () => onEdit?.(post),
-        },
         {
             label: "Delete",
             icon: "pi pi-trash",

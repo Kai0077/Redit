@@ -11,7 +11,7 @@ const API_BASE_URL = import.meta.env.VITE_LOCAL_API_BASE_URL || import.meta.env.
 const api = axios.create({
     baseURL: `${API_BASE_URL}/auth`,
     headers: { 
-        "Content-Type": "application/json", 
+        "Content-Type": "application/json",
     },
 });
 
