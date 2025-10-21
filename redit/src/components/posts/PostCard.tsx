@@ -8,6 +8,14 @@ interface PostCardProps {
     onOpen?: () => void;
 }
 
+/** Tiny helper: get visible text content from HTML */
+function htmlText(html: string | null | undefined): string {
+    if (!html) return "";
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    return (div.textContent || "").trim();
+}
+
 export default function PostCard({
                                      post,
                                      onVote,
@@ -16,6 +24,9 @@ export default function PostCard({
                                      onOpen,
                                  }: PostCardProps) {
     const aura = post.aura ?? 0;
+
+    // Compute once, BEFORE return
+    const hasDesc = !!htmlText(post.description);
 
     return (
         <article className="post-card" role="article" onClick={onOpen}>
@@ -26,13 +37,11 @@ export default function PostCard({
                     <div className="community-info">
                         <div className="community-line">
                             {post.community && (
-                                <span className="community-name">
-                                    r/{post.community}
-                                </span>
+                                <span className="community-name">r/{post.community}</span>
                             )}
                             <span className="community-meta">
-                                • Posted by u/{post.originalPoster}
-                            </span>
+                • Posted by u/{post.originalPoster}
+              </span>
                         </div>
                     </div>
                 </div>
@@ -42,16 +51,15 @@ export default function PostCard({
             <div className="post-body">
                 <h2 className="post-title">{post.title}</h2>
 
-                {post.description && (
-                    <div
-                        className="post-description"
-                        dangerouslySetInnerHTML={{ __html: post.description }}
-                    />
+                {hasDesc && (
+                    <div className="post-description">
+                        {htmlText(post.description)}
+                    </div>
                 )}
 
                 {post.embeds?.length ? (
                     <ul className="post-embeds">
-                        {post.embeds.map((url: string) => (
+                        {post.embeds.map((url) => (
                             <li key={url}>
                                 <a
                                     href={url}
@@ -71,12 +79,9 @@ export default function PostCard({
             {/* Footer */}
             <footer className="post-footer">
                 <div className="post-actions-left">
-                    {/* Vote pill */}
                     <div className="vote-pill">
                         <i
-                            className={`pi pi-arrow-up vote-icon ${
-                                isUpvoted ? "upvoted" : ""
-                            }`}
+                            className={`pi pi-arrow-up vote-icon ${isUpvoted ? "upvoted" : ""}`}
                             onClick={(e) => {
                                 e.stopPropagation();
                                 onVote?.(1);
@@ -84,9 +89,7 @@ export default function PostCard({
                         />
                         <span className="vote-count">{aura}</span>
                         <i
-                            className={`pi pi-arrow-down vote-icon ${
-                                isDownvoted ? "downvoted" : ""
-                            }`}
+                            className={`pi pi-arrow-down vote-icon ${isDownvoted ? "downvoted" : ""}`}
                             onClick={(e) => {
                                 e.stopPropagation();
                                 onVote?.(-1);
@@ -94,7 +97,6 @@ export default function PostCard({
                         />
                     </div>
 
-                    {/* Comments */}
                     <button className="comment-btn" onClick={(e) => e.stopPropagation()}>
                         <i className="pi pi-comment comment-icon" />
                         <span>Comments</span>

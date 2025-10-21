@@ -1,14 +1,15 @@
+// components/CreatePost.tsx
 import { useState } from "react";
 import { Button } from "primereact/button";
-import { createPost } from "../../api/post-auth.ts";
-import type { CreatePostResponse } from "../../types/post.ts";
+import { createPost } from "../../api/post-auth"; // <- your API client
+import type { CreatePostResponse } from "../../types/post";
 
-function isHtmlBlank(html: string) {
-    return (
-        html === "" ||
-        html === "<p><br></p>" ||
-        html.replace(/<[^>]*>/g, "").trim() === ""
-    );
+// --- helper (module scope) ---
+function htmlText(html: string | null | undefined): string {
+    if (!html) return "";
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    return (div.textContent || "").trim();
 }
 
 export default function CreatePost({
@@ -26,21 +27,23 @@ export default function CreatePost({
 
     const handleClick = async () => {
         const clean = descriptionHtml ?? "";
+        const textOnly = htmlText(clean);
 
         if (!title.trim()) {
             onError?.("Please add a title.");
             return;
         }
-        if (isHtmlBlank(clean)) {
+        if (!textOnly) {
             onError?.("Please add a description.");
             return;
         }
 
         try {
             setLoading(true);
+            // send HTML (or send textOnly if your API wants plaintext)
             const created = await createPost({
                 title: title.trim(),
-                description: clean, // send HTML; change to plaintext if backend expects it
+                description: clean,
             });
             onSuccess?.(created);
         } catch (e: any) {
