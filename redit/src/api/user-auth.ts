@@ -3,7 +3,7 @@ import {
     type SignupRequest,
     type SignupResponse,
     type LoginRequest,
-    type LoginResponse, type LogoutRequest, type LogoutResponse, AccountRole
+    type LoginResponse, type LogoutRequest, type LogoutResponse, AccountRole, type User
 } from "../types/user.ts";
 
 const API_BASE_URL = import.meta.env.VITE_LOCAL_API_BASE_URL || import.meta.env.VITE_API_BASE_URL;
@@ -55,6 +55,16 @@ export const logout = async (data?: LogoutRequest): Promise<LogoutResponse | voi
         localStorage.removeItem("user");
         window.dispatchEvent(new Event("auth:changed"));
     }
+};
+
+export const getAllUsers = async (): Promise<User[]> => {
+    const superUser = getSuperUser();
+    if (!superUser) {
+        throw new Error("Unauthorized: Super user access required.");
+    }
+    
+    const response = await api.get<User[]>("/users");
+    return response.data;
 };
 
 export default api;

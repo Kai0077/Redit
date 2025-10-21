@@ -1,0 +1,4 @@
+
+interface AdminUserCard {
+    user: User;
+}
