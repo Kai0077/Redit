@@ -1,5 +1,6 @@
 import axios from "axios";
-import type { GetAllPostsResponse } from "../types/post.ts";
+import type {CreatePostResponse, GetAllPostsResponse, PostCreateDTO} from "../types/post.ts";
+import type { Post } from "../types/post";
 import {getCurrentUser, getSuperUser} from "./user-auth.ts";
 
 const API_BASE_URL = import.meta.env.VITE_LOCAL_API_BASE_URL || import.meta.env.VITE_API_BASE_URL;
@@ -28,6 +29,16 @@ export const getAllPosts = async (): Promise<GetAllPostsResponse> => {
     const response = await api.get<GetAllPostsResponse>("/");
     return response.data;
 }
+
+export const createPost = async (dto: PostCreateDTO): Promise<CreatePostResponse> => {
+    const { data } = await api.post<CreatePostResponse>("/", dto);
+    return data;
+};
+
+export const getMyPosts = async (): Promise<Post[]> => {
+    const { data } = await api.get<Post[]>("/user"); // hits GET /api/posts/user
+    return data;
+};
 
 export const deletePost = async (id: number): Promise<void> => {
     const user = getCurrentUser();
