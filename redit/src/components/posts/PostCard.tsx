@@ -8,14 +8,6 @@ interface PostCardProps {
     onOpen?: () => void;
 }
 
-/** Tiny helper: get visible text content from HTML */
-function htmlText(html: string | null | undefined): string {
-    if (!html) return "";
-    const div = document.createElement("div");
-    div.innerHTML = html;
-    return (div.textContent || "").trim();
-}
-
 export default function PostCard({
                                      post,
                                      onVote,
@@ -24,10 +16,6 @@ export default function PostCard({
                                      onOpen,
                                  }: PostCardProps) {
     const aura = post.aura ?? 0;
-
-    // Compute once, BEFORE return
-    const hasDesc = !!htmlText(post.description);
-
     return (
         <article className="post-card" role="article" onClick={onOpen}>
             {/* Header */}
@@ -50,13 +38,7 @@ export default function PostCard({
             {/* Body */}
             <div className="post-body">
                 <h2 className="post-title">{post.title}</h2>
-
-                {hasDesc && (
-                    <div className="post-description">
-                        {htmlText(post.description)}
-                    </div>
-                )}
-
+                    <div className="post-description">{post.description}
                 {post.embeds?.length ? (
                     <ul className="post-embeds">
                         {post.embeds.map((url) => (
@@ -73,8 +55,9 @@ export default function PostCard({
                             </li>
                         ))}
                     </ul>
-                ) : null}
+                ) : null}</div>
             </div>
+
 
             {/* Footer */}
             <footer className="post-footer">

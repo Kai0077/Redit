@@ -36,7 +36,7 @@ export default function PostPage() {
             setLoading(true);
             const payload = {
                 title: title.trim(),
-                description: text, // HTML
+                descriptionHtml: text, // HTML
             };
             const created: CreatePostResponse = await createPost(payload);
             toast.current?.show({ severity: "success", summary: "Posted!", detail: `Post #${created.id} created.` });
