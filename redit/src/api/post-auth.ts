@@ -1,6 +1,5 @@
 import axios from "axios";
-import type {CreatePostResponse, GetAllPostsResponse, PostCreateDTO} from "../types/post.ts";
-import type { Post } from "../types/post";
+import type {CreatePostResponse, GetAllPostsResponse, PostCreateDTO, Post} from "../types/post.ts";
 import {getCurrentUser, getSuperUser} from "./user-auth.ts";
 
 const API_BASE_URL = import.meta.env.VITE_LOCAL_API_BASE_URL || import.meta.env.VITE_API_BASE_URL;
