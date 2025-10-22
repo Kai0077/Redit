@@ -9,7 +9,7 @@ import {
 const API_BASE_URL = import.meta.env.VITE_LOCAL_API_BASE_URL || import.meta.env.VITE_API_BASE_URL;
 
 const api = axios.create({
-    baseURL: `${API_BASE_URL}/auth`,
+    baseURL: `${API_BASE_URL}`,
     headers: { 
         "Content-Type": "application/json",
     },
@@ -24,12 +24,12 @@ api.interceptors.request.use((config) => {
 });
 
 export const signup = async (data: SignupRequest): Promise<SignupResponse> => {
-    const response = await api.post<SignupResponse>("/signup", data);
+    const response = await api.post<SignupResponse>("/auth/signup", data);
     return response.data;
 };
 
 export const login = async (data: LoginRequest): Promise<LoginResponse> => {
-    const response = await api.post<LoginResponse>("/login", data);
+    const response = await api.post<LoginResponse>("/auth/login", data);
     return response.data;
 };
 
@@ -48,7 +48,7 @@ export const getSuperUser = () => {
 
 export const logout = async (data?: LogoutRequest): Promise<LogoutResponse | void> => {
     try {
-        const response = await api.post<LogoutResponse>("/logout", data);
+        const response = await api.post<LogoutResponse>("/auth/logout", data);
         return response.data;
     } finally {
         localStorage.removeItem("token");
@@ -65,6 +65,15 @@ export const getAllUsers = async (): Promise<User[]> => {
     
     const response = await api.get<User[]>("/users");
     return response.data;
+};
+
+export const deleteUser = async (username: string): Promise<void> => {
+    const superUser = getSuperUser();
+    if (!superUser) {
+        throw new Error("Unauthorized: Super user access required.");
+    }
+    
+    await api.delete(`/users/${username}`);
 };
 
 export default api;
