@@ -16,7 +16,7 @@ export interface Post {
 
 export type PostCreateDTO = {
     title: string;
-    description: string; // HTML
+    descriptionHtml: string; // HTML
 };
 
 export type CreatePostResponse = Post;
