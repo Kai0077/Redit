@@ -4,6 +4,7 @@ import PostList from "../components/posts/AdminPostList";
 import AppToast from "../components/AppToast";
 import "../../styles/AdminPage.css";
 import Menubar from "../layouts/Menubar.tsx";
+import AdminUserList from "../components/users/AdminUserList.tsx";
 
 export default function AdminPage() {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -36,7 +37,7 @@ export default function AdminPage() {
                         {/* Users Tab */}
                         <TabPanel header="Users">
                             <div className="tab-placeholder">
-                                <p>User management coming soon.</p>
+                                <AdminUserList></AdminUserList>
                             </div>
                         </TabPanel>
                     </TabView>

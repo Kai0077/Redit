@@ -1,7 +1,6 @@
 import axios from "axios";
-import type { CreatePostResponse, GetAllPostsResponse, PostCreateDTO, Post } from "../types/post";
-import { getSuperUser } from "./user-auth";
-import { getCurrentUser} from "./user-auth";
+import type {CreatePostResponse, GetAllPostsResponse, PostCreateDTO, Post} from "../types/post";
+import { getSuperUser, getCurrentUser } from "./user-auth";
 
 const API_BASE_URL =
     import.meta.env.VITE_LOCAL_API_BASE_URL || import.meta.env.VITE_API_BASE_URL;
@@ -41,7 +40,7 @@ export const getMyPosts = async (): Promise<Post[]> => {
 export const deletePost = async (id: number): Promise<void> => {
     const user = getCurrentUser();
     if (!user) {
-        throw new Error("Unauthorized: You are not allowed to perform this action.");
+       throw new Error("Unauthorized: You are not allowed to perform this action.");
     }
 
     await api.delete(`/${id}`);
