@@ -48,3 +48,15 @@ export interface LogoutRequest {
 export interface LogoutResponse {
     message: string;
 }
+
+export interface User {
+    username: string;
+    name: string;
+    email: string;
+    age: number;
+    aura: number;
+    bio: string;
+    profilePicture: string;
+    accountStatus: AccountStatus;
+    role: AccountRole;
+}

@@ -1,7 +1,7 @@
 import type { Post } from "../../types/post";
 import { Menu } from "primereact/menu";
 import { Button } from "primereact/button";
-import { useRef } from "react";
+import {usePopupMenu} from "../../hooks/usePopupMenu.ts";
 
 interface AdminPostCardProps {
     post: Post;
@@ -19,22 +19,19 @@ export default function AdminPostCard({
                                           isUpvoted,
                                           isDownvoted,
                                           onOpen,
-                                          onEdit,
                                           onDelete,
                                       }: AdminPostCardProps) {
     const aura = post.aura ?? 0;
-    const menuRef = useRef<Menu>(null);
+    const { menuRef, toggle, hide } = usePopupMenu();
 
     const menuItems = [
         {
-            label: "Edit",
-            icon: "pi pi-pencil",
-            command: () => onEdit?.(post),
-        },
-        {
             label: "Delete",
             icon: "pi pi-trash",
-            command: () => onDelete?.(post),
+            command: () => {
+                onDelete?.(post);
+                hide();
+            },
         },
     ];
 
@@ -67,7 +64,10 @@ export default function AdminPostCard({
                         text
                         aria-label="Options"
                         className="options-btn"
-                        onClick={(e) => menuRef.current?.toggle(e)}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            toggle(e);
+                        }}
                     />
                 </div>
             </header>
