@@ -18,9 +18,9 @@ export default function AdminPostList() {
     // Delete mutation -> invalidate list on success
     const delMut = useMutation({
         mutationFn: (postId: number) => deletePost(postId),
-        onSuccess: () => {
+        onSuccess: async () => {
             // ensure fresh data after delete (works with staleTime/gcTime)
-            qc.invalidateQueries({ queryKey: adminAllPostsKey });
+            await qc.invalidateQueries({ queryKey: adminAllPostsKey });
             toastRef.current?.showSuccess("Post deleted successfully.");
         },
         onError: (err: any) => {

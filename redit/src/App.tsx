@@ -16,8 +16,8 @@ function App() {
             new QueryClient({
                 defaultOptions: {
                     queries: {
-                        staleTime: 30_000,
-                        gcTime: 5 * 60_000,
+                        staleTime: 10_000, // 10 seconds.
+                        gcTime: 5 * 60_000, // Cache time.
                         refetchOnWindowFocus: true,
                         refetchOnReconnect: true,
                     },
