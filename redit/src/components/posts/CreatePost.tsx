@@ -43,7 +43,7 @@ export default function CreatePost({
             // send HTML (or send textOnly if your API wants plaintext)
             const created = await createPost({
                 title: title.trim(),
-                description: clean,
+                descriptionHtml: clean,
             });
             onSuccess?.(created);
         } catch (e: any) {
