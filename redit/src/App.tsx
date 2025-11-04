@@ -16,10 +16,12 @@ function App() {
             new QueryClient({
                 defaultOptions: {
                     queries: {
+                        retry: 10,
                         staleTime: 10_000, // 10 seconds.
                         gcTime: 5 * 60_000, // Cache time.
                         refetchOnWindowFocus: true,
                         refetchOnReconnect: true,
+                        refetchOnMount: true,
                     },
                 },
             })
