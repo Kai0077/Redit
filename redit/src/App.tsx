@@ -9,6 +9,7 @@ import {AccountRole} from "./types/user.ts";
 import PostPage from "./pages/PostPage.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
+import ErrorPage from "./pages/ErrorPage.tsx";
 
 function App() {
     const [queryClient] = useState(
@@ -16,7 +17,7 @@ function App() {
             new QueryClient({
                 defaultOptions: {
                     queries: {
-                        retry: 10,
+                        retry: 4,
                         staleTime: 10_000, // 10 seconds.
                         gcTime: 5 * 60_000, // Cache time.
                         refetchOnWindowFocus: true,
@@ -52,6 +53,8 @@ function App() {
             </Route>
 
             <Route path="/" element={<Logout />} />
+            <Route path="/error" element={<ErrorPage />} />
+            <Route path="*" element={<ErrorPage status={404} />} />
         </Routes>
             </QueryClientProvider>
     );
