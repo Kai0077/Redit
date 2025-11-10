@@ -9,14 +9,14 @@ export interface Post {
     description: string;
     aura: number;
     originalPoster: string;
-    community: string | null; // backend may return null if profile post
-    embeds: string[];         // backend returns an array (can be empty)
+    community: string | null;
+    embeds: string[];
     status: PostStatus;
 }
 
 export type PostCreateDTO = {
     title: string;
-    descriptionHtml: string; // HTML
+    descriptionHtml: string;
 };
 
 export type CreatePostResponse = Post;

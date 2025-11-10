@@ -6,7 +6,7 @@ const API_BASE_URL =
     import.meta.env.VITE_LOCAL_API_BASE_URL || import.meta.env.VITE_API_BASE_URL;
 
 const api = axios.create({
-    baseURL: `${API_BASE_URL}/posts`, // <-- include /api
+    baseURL: `${API_BASE_URL}/posts`,
     headers: { "Content-Type": "application/json" },
 });
 
@@ -15,6 +15,12 @@ api.interceptors.request.use((config) => {
     if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
 });
+
+// GET /api/posts/public (public posts)
+export const getAllPostsPublic = async (): Promise<GetAllPostsResponse> => {
+    const { data } = await api.get<GetAllPostsResponse>("/public");
+    return data;
+}
 
 // GET /api/posts (super_user only)
 export const getAllPosts = async (): Promise<GetAllPostsResponse> => {
