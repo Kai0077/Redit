@@ -1,4 +1,3 @@
-// components/CreatePost.tsx
 import { useState } from "react";
 import { Button } from "primereact/button";
 import { createPost } from "../../api/post-auth"; // <- your API client

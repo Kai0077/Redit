@@ -1,11 +1,12 @@
 // components/posts/AdminPostList.tsx
-import { useRef } from "react";
+import {useEffect, useRef} from "react";
 import type { Post } from "../../types/post";
 import AppToast, { type AppToastHandle } from "../../components/AppToast";
 import PostCard from "./AdminPostCard";
 import { useAllPosts, adminAllPostsKey } from "../../hooks/useAllPosts";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deletePost } from "../../api/post-auth";
+import {useNavigate} from "react-router-dom";
 
 export default function AdminPostList() {
     const toastRef = useRef<AppToastHandle>(null);
@@ -14,6 +15,15 @@ export default function AdminPostList() {
     // Load all posts (React Query)
     const { data, isLoading, isError, error, isFetching, refetch } = useAllPosts();
     const posts = data ?? [];
+
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (isError) {
+            navigate("/error", {
+                state: { status: 500, message: (error as Error).message },
+            });
+        }
+    }, [isError, error, navigate]);
 
     // Delete mutation -> invalidate list on success
     const delMut = useMutation({

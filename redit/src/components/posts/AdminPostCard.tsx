@@ -1,39 +1,28 @@
+// src/components/posts/AdminPostCard.tsx
 import type { Post } from "../../types/post";
 import { Menu } from "primereact/menu";
 import { Button } from "primereact/button";
-import {usePopupMenu} from "../../hooks/usePopupMenu.ts";
+import { usePopupMenu } from "../../hooks/usePopupMenu";
 
 interface AdminPostCardProps {
     post: Post;
-    onVote?: (value: 1 | -1) => void;
-    isUpvoted?: boolean;
-    isDownvoted?: boolean;
     onOpen?: () => void;
-    onEdit?: (post: Post) => void;
     onDelete?: (post: Post) => void;
 }
 
-export default function AdminPostCard({
-                                          post,
-                                          onVote,
-                                          isUpvoted,
-                                          isDownvoted,
-                                          onOpen,
-                                          onDelete,
-                                      }: AdminPostCardProps) {
+export default function AdminPostCard({ post, onOpen, onDelete }: AdminPostCardProps) {
     const aura = post.aura ?? 0;
-    const { menuRef, toggle, hide } = usePopupMenu();
+    const { menuRef, toggle } = usePopupMenu();
 
-    const menuItems = [
-        {
-            label: "Delete",
-            icon: "pi pi-trash",
-            command: () => {
-                onDelete?.(post);
-                hide();
+    const menuItems = onDelete
+        ? [
+            {
+                label: "Delete",
+                icon: "pi pi-trash",
+                command: () => onDelete(post),
             },
-        },
-    ];
+        ]
+        : [];
 
     return (
         <article className="post-card" role="article">
@@ -43,19 +32,11 @@ export default function AdminPostCard({
                     <div className="community-icon" />
                     <div className="community-info">
                         <div className="community-line">
-                            {post.community && (
-                                <span className="community-name">
-                                    r/{post.community}
-                                </span>
-                            )}
-                            <span className="community-meta">
-                                • Posted by u/{post.originalPoster}
-                            </span>
+                            {post.community && <span className="community-name">r/{post.community}</span>}
+                            <span className="community-meta">• Posted by u/{post.originalPoster}</span>
                         </div>
                     </div>
                 </div>
-
-                {/* Options menu button */}
                 <div className="options-menu">
                     <Menu model={menuItems} popup ref={menuRef} />
                     <Button
@@ -72,17 +53,18 @@ export default function AdminPostCard({
                 </div>
             </header>
 
-            {/* Body */}
             <div className="post-body" onClick={onOpen}>
                 <h2 className="post-title">{post.title}</h2>
 
-                {post.description && (
+                {post.description ? (
+                    <div className="post-description" dangerouslySetInnerHTML={{ __html: post.description }} />
+                ) : post.description ? (
                     <p className="post-description">{post.description}</p>
-                )}
+                ) : null}
 
                 {post.embeds?.length ? (
                     <ul className="post-embeds">
-                        {post.embeds.map((url: string) => (
+                        {post.embeds.map((url) => (
                             <li key={url}>
                                 <a
                                     href={url}
@@ -99,39 +81,18 @@ export default function AdminPostCard({
                 ) : null}
             </div>
 
-            {/* Footer */}
             <footer className="post-footer">
                 <div className="post-actions-left">
-                    {/* Vote pill */}
                     <div className="vote-pill">
-                        <i
-                            className={`pi pi-arrow-up vote-icon ${
-                                isUpvoted ? "upvoted" : ""
-                            }`}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                onVote?.(1);
-                            }}
-                        />
+                        <i className="pi pi-arrow-up vote-icon" />
                         <span className="vote-count">{aura}</span>
-                        <i
-                            className={`pi pi-arrow-down vote-icon ${
-                                isDownvoted ? "downvoted" : ""
-                            }`}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                onVote?.(-1);
-                            }}
-                        />
+                        <i className="pi pi-arrow-down vote-icon" />
                     </div>
-
-                    {/* Comments */}
                     <button className="comment-btn">
                         <i className="pi pi-comment comment-icon" />
                         <span>Comments</span>
                     </button>
                 </div>
-
                 <div className="post-actions-right">
                     <button className="icon-btn">
                         <i className="pi pi-share-alt" />

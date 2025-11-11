@@ -19,5 +19,10 @@ export type PostCreateDTO = {
     descriptionHtml: string; // HTML
 };
 
+export type PostUpdateDTO = {
+    title: string;
+    description: string;
+}
+
 export type CreatePostResponse = Post;
 export type GetAllPostsResponse = Post[];
