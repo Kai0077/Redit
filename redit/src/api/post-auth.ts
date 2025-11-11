@@ -1,5 +1,5 @@
 import axios from "axios";
-import type {CreatePostResponse, GetAllPostsResponse, PostCreateDTO, Post} from "../types/post";
+import type {CreatePostResponse, GetAllPostsResponse, PostCreateDTO, Post, PostUpdateDTO} from "../types/post";
 import { getSuperUser, getCurrentUser } from "./user-auth";
 
 const API_BASE_URL =
@@ -52,4 +52,9 @@ export const deletePost = async (id: number): Promise<void> => {
     await api.delete(`/${id}`);
 }
 
+// UPDATE POSTS
+export const updatePost = async (id: number, dto: PostUpdateDTO): Promise<Post> => {
+    const { data } = await api.put<Post>(`/${id}`, dto);
+    return data;
+};
 export default api;

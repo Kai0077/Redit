@@ -1,17 +1,12 @@
-// components/TabBar.tsx
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { TabView, TabPanel } from "primereact/tabview";
 import { Button } from "primereact/button";
-import { useNavigate } from "react-router-dom";
-
-import AppToast, { type AppToastHandle } from "../components/AppToast";
-import { getMyPosts } from "../api/post-auth";
+import AppToast, { type AppToastHandle } from "./AppToast";
 import type { Post } from "../types/post";
-
-// If you want to reuse AdminPostCard for normal users:
-import PostCard from "../components/posts/AdminPostCard";
-// If you have a separate normal PostCard, swap the import:
-// import PostCard from "../components/posts/PostCard";
+import { getMyPosts, deletePost } from "../api/post-auth";
+import PostCard from "./posts/PostCard";
+import UpdatePostDialog from "./posts/UpdatePostDialog";
 
 export default function TabBar() {
     const navigate = useNavigate();
@@ -20,6 +15,9 @@ export default function TabBar() {
     const [loading, setLoading] = useState(false);
     const toastRef = useRef<AppToastHandle>(null);
 
+    const [editOpen, setEditOpen] = useState(false);
+    const [editing, setEditing] = useState<Post | null>(null);
+
     useEffect(() => {
         void loadPosts();
     }, []);
@@ -27,16 +25,36 @@ export default function TabBar() {
     const loadPosts = async () => {
         setLoading(true);
         try {
-            const data = await getMyPosts(); // <-- user’s own posts
+            const data = await getMyPosts();
             setPosts(data);
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Failed to load posts.";
+            const message = error?.response?.data?.message || error?.message || "Failed to load posts.";
             toastRef.current?.showError(message);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleEdit = (post: Post) => {
+        setEditing(post);
+        setEditOpen(true);
+    };
+
+    // Replace the updated post locally after save
+    const handleSaved = (updated: Post) => {
+        setPosts(prev => prev.map(p => (p.id === updated.id ? { ...p, ...updated } : p)));
+        toastRef.current?.showSuccess("Post updated.");
+    };
+
+    // Owner delete
+    const handleDelete = async (post: Post) => {
+        try {
+            await deletePost(post.id); // backend should enforce owner-or-superuser
+            setPosts(prev => prev.filter(p => p.id !== post.id));
+            toastRef.current?.showSuccess("Post deleted.");
+        } catch (e: any) {
+            const msg = e?.response?.data?.message || e?.message || "Failed to delete post.";
+            toastRef.current?.showError(msg);
         }
     };
 
@@ -44,7 +62,6 @@ export default function TabBar() {
         <div className="tabbar-wrap">
             <TabView className="tabbar">
                 <TabPanel header="Posts">
-                    {/* Toolbar */}
                     <div className="tabbar-toolbar">
                         <Button
                             label="Create Post"
@@ -55,7 +72,6 @@ export default function TabBar() {
                         />
                     </div>
 
-                    {/* Gray content box with vertical list */}
                     <div className="tabbar-content p-3">
                         <AppToast ref={toastRef} />
 
@@ -66,14 +82,15 @@ export default function TabBar() {
                         ) : (
                             <div
                                 className="flex flex-column gap-3"
-                                style={{
-                                    // keep posts stacked and scrollable inside the gray box
-                                    maxHeight: "calc(100vh - 240px)",
-                                    overflowY: "auto",
-                                }}
+                                style={{ maxHeight: "calc(100vh - 240px)", overflowY: "auto" }}
                             >
-                                {posts.map((post) => (
-                                    <PostCard key={post.id} post={post} />
+                                {posts.map(post => (
+                                    <PostCard
+                                        key={post.id}
+                                        post={post}
+                                        onEdit={handleEdit}
+                                        onDelete={handleDelete}
+                                    />
                                 ))}
                             </div>
                         )}
@@ -88,6 +105,12 @@ export default function TabBar() {
                     <div className="tabbar-content p-3">{/* TODO: communities list */}</div>
                 </TabPanel>
             </TabView>
+            <UpdatePostDialog
+                visible={editOpen}
+                post={editing}
+                onClose={() => setEditOpen(false)}
+                onSaved={handleSaved}
+            />
         </div>
     );
 }
