@@ -2,7 +2,7 @@
 .admin-page {
     padding: 1rem;
     color: #d7dadc;
-    background-color: #000; /* Dark background */
+    background-color: #000;
     min-height: 100vh;
 }
 
@@ -13,7 +13,7 @@
     color: #ffffff;
 }
 
-/* === PrimeReact TabView Customization === */
+/* === TabView === */
 .custom-tabview {
     background: transparent;
     border: none;

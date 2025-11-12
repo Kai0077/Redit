@@ -1,0 +1,29 @@
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post-header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.scheduled-badge-header {
+    display: inline-flex;
+    align-items: center;
+    background-color: #d6400b;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 9999px;
+    padding: 0.2rem 0.6rem;
+    cursor: default;
+    user-select: none;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.scheduled-badge-header:hover {
+    background-color: #e24a10;
+}

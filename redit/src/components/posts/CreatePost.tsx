@@ -3,7 +3,6 @@ import { Button } from "primereact/button";
 import { createPost } from "../../api/post-auth"; // <- your API client
 import type { CreatePostResponse } from "../../types/post";
 
-// --- helper (module scope) ---
 function htmlText(html: string | null | undefined): string {
     if (!html) return "";
     const div = document.createElement("div");
@@ -11,12 +10,7 @@ function htmlText(html: string | null | undefined): string {
     return (div.textContent || "").trim();
 }
 
-export default function CreatePost({
-                                       title,
-                                       descriptionHtml,                  // Editor HTML
-                                       onSuccess,
-                                       onError,
-                                   }: {
+export default function CreatePost({ title, descriptionHtml, onSuccess, onError }: {
     title: string;
     descriptionHtml?: string | null;
     onSuccess?: (post: CreatePostResponse) => void;
@@ -39,7 +33,6 @@ export default function CreatePost({
 
         try {
             setLoading(true);
-            // send HTML (or send textOnly if your API wants plaintext)
             const created = await createPost({
                 title: title.trim(),
                 descriptionHtml: clean,

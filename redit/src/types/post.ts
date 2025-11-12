@@ -12,11 +12,15 @@ export interface Post {
     community: string | null;
     embeds: string[];
     status: PostStatus;
+    isPublic: boolean;
+    publishAt: string | null;
 }
 
 export type PostCreateDTO = {
     title: string;
     descriptionHtml: string;
+    isPublic?: boolean;
+    publishAt?: string | null;
 };
 
 export type PostUpdateDTO = {
