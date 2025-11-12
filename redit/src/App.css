@@ -204,13 +204,16 @@ Button:focus { box-shadow: none; }
     padding: 0.75rem 1rem;
     min-height: 240px;
 }
+.ql-picker-item {
+    color: #000000
+}
 
 /* Optional: tint icons/labels to match title placeholder */
 .post-editor .ql-toolbar .ql-stroke { stroke: rgba(255,255,255,.6) !important; }
 .post-editor .ql-toolbar .ql-fill   { fill:   rgba(255,255,255,.6) !important; }
 .post-editor .ql-toolbar .ql-picker,
 .post-editor .ql-toolbar .ql-picker-label,
-.post-editor .ql-toolbar .ql-picker-item,
+.post-editor .ql-toolbar,
 .post-editor .ql-toolbar button {
     color: rgba(255,255,255,.6) !important;
 }
@@ -268,7 +271,7 @@ Button:focus { box-shadow: none; }
 }
 
 .post-editor .ql-editor.ql-blank::before {
-    color: rgba(255,255,255,.6);
+    /*color: rgba(255,255,255,.6);*/
     opacity: 1;                 /* some themes set this low */
     font-style: normal;         /* remove italic if you don't want it */
 }
