@@ -1,4 +1,4 @@
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {Button} from "primereact/button";
 
 type Props = { status?: 404 | 500; message?: string };
@@ -11,7 +11,7 @@ export default function ErrorPage(props: Props) {
     const title = status === 404 ? "Page not found" : "Server error";
     const desc =
         status === 404
-            ? "We couldn’t find that page."
+            ? "We couldn't find that page."
             : message ?? "Something broke on our side. Please try again.";
     const navigate = useNavigate();
 
