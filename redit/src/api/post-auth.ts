@@ -2,8 +2,9 @@ import axios from "axios";
 import type {CreatePostResponse, GetAllPostsResponse, PostCreateDTO, Post, PostUpdateDTO} from "../types/post";
 import { getSuperUser, getCurrentUser } from "./user-auth";
 
-const API_BASE_URL =
-    import.meta.env.VITE_LOCAL_API_BASE_URL || import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.DEV 
+    ? import.meta.env.VITE_LOCAL_API_BASE_URL 
+    : import.meta.env.VITE_API_BASE_URL;
 
 const api = axios.create({
     baseURL: `${API_BASE_URL}/posts`,
